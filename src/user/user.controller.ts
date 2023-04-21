@@ -1,13 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ResponseUtil } from 'src/common/utils/response';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    ) {}
 
   @Post('auth')
   isAuth() {
@@ -19,23 +20,15 @@ export class UserController {
     return ResponseUtil.ok(await this.userService.login(loginUserDto));
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Post('register')
+  async register(@Body() createUserDto: CreateUserDto) {
+    await this.userService.create(createUserDto)
+    return ResponseUtil.ok({});
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get('code')
+  async sendCode(@Query('telphone') telphone: string) {
+    return ResponseUtil.ok(await this.userService.sendSms(telphone));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
 }

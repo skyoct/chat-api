@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { ChatRequestDto } from './dto/chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
-import { ChatGPTApi } from './gpt.service';
-import { ChatMessage } from 'chatgpt';
 import { Response } from 'express';
+import { AuthGuard } from 'src/user/auth.guard';
 
 @Controller('chat')
+@UseGuards(AuthGuard)
 export class ChatController {
   constructor(
     private readonly chatService: ChatService,

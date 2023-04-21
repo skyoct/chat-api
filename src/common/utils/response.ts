@@ -4,7 +4,13 @@ export class ResponseUtil<T = any> {
 
     public message?: string
 
-    public data?: string
+    public data?: any
+
+    constructor(code: number, message: string, data?: T) {
+        this.code = code
+        this.message = message
+        this.data = data
+    }
 
     static ok<T>(data?: T) {
         return { code: 200, message: 'success', data }

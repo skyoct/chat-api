@@ -13,8 +13,7 @@ import { ResponseUtil } from '../utils/response';
       const ctx = host.switchToHttp();
       const response = ctx.getResponse<Response>();
       const request = ctx.getRequest<Request>();
-      const status = exception.getStatus();
-  
+      const status = exception.getStatus();  
       if (status === 401) {
         response.status(200).json(ResponseUtil.unauthorized(exception.message));
       } else if (status == 400){

@@ -17,12 +17,15 @@ export class ServerConfig {
     }
 
     static get JWT_SECRET() {
-        console.log('JWT_SECRET', process.env.JWT_SECRET)
         return process.env.JWT_SECRET || 'adminslat456'
     }
 
     static get SMS_URL() {
         return process.env.SMS_URL
+    }
+
+    static get ON_REGISTER() {
+        return process.env.ON_REGISTER || false
     }
 
 }
